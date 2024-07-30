@@ -34,15 +34,21 @@
 - git checkout -b kimkihong origin/kimkihong
 - git branch -a
 
+## data.tar.gz 세팅
+
+- /kkh 폴더 내에 data.tar.gz 파일 복사
+- tar -xzvf data.tar.gz
+
 ## 우분투에 poetry 세팅
 
 - pip install --upgrade pip
 - pip install poetry
 - poetry -V
+- cd /kkh
 - poetry init
 - pyproject.toml 파일 수정
 - poetry install
-- poetry add jupyter nbconvert
+- poetry add jupyter nbconvert numpy matplotlib seaborn scikit-learn timm
 
 ## jupyter_to_python.sh 파일 작성
 

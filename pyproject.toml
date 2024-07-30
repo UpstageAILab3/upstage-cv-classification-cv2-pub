@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "kkh"
+version = "0.1.0"
+description = ""
+authors = ["helpotcreator <helpotcreator@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+jupyter = "^1.0.0"
+nbconvert = "^7.16.4"
+numpy = "^2.0.1"
+matplotlib = "^3.9.1"
+seaborn = "^0.13.2"
+scikit-learn = "^1.5.1"
+timm = "^1.0.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
