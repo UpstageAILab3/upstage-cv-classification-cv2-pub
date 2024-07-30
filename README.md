@@ -15,18 +15,15 @@
 - jupyter_to_python.sh: 주피터 파일을 파이썬 파일로 변환하는 리눅스 스크립트
 - font/: 폰트 파일
 
-## 우분투 세팅
-
-- apt-get update
-- mkdir /kkh
-- cd /kkh
 
 ## 우분투에 git 세팅
 
-- apt install -y git
+- apt update
+- apt install -y git wget htop curl vim libgl1-mesa-glx libglib2.0-0
 - git --version
 - git config --global user.email "helpotcreator@gmail.com"
 - git config --global user.name "helpotcreator"
+- cd /
 - git clone https://{개인 토큰}@github.com/UpstageAILab3/upstage-cv-classification-cv2.git
 - mv upstage-cv-classification-cv2 kkh
 - cd kkh
@@ -36,8 +33,20 @@
 
 ## data.tar.gz 세팅
 
-- /kkh 폴더 내에 data.tar.gz 파일 복사
+- cd /kkh
+- wget https://aistages-api-public-prod.s3.amazonaws.com/app/Competitions/000319/data/data.tar.gz
 - tar -xzvf data.tar.gz
+
+## 우분투에 miniconda3 세팅
+
+- wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+- chmod +x Miniconda3-latest-Linux-x86_64.sh
+- ./Miniconda3-latest-Linux-x86_64.sh
+- conda create -n cv python=3.10
+- conda init
+- source ~/.bashrc
+- conda activate cv
+- pip install jupyter nbconvert numpy matplotlib seaborn scikit-learn timm torch torchvision albumentations opencv-python-headless augraphy
 
 ## 우분투에 poetry 세팅
 
@@ -48,7 +57,7 @@
 - poetry init
 - pyproject.toml 파일 수정
 - poetry install
-- poetry add jupyter nbconvert numpy matplotlib seaborn scikit-learn timm albumentations[imgaug] opencv-python-headless
+- poetry add jupyter nbconvert numpy matplotlib seaborn scikit-learn timm torch torchvision albumentations opencv-python-headless augraphy
 
 ## jupyter_to_python.sh 파일 작성
 
