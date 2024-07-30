@@ -1,93 +1,83 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/FVjNDCrt)
-# Title (Please modify the title)
-## Team
+# 📜 문서 타입 분류 대회
 
-| ![박패캠](https://avatars.githubusercontent.com/u/156163982?v=4) | ![이패캠](https://avatars.githubusercontent.com/u/156163982?v=4) | ![최패캠](https://avatars.githubusercontent.com/u/156163982?v=4) | ![김패캠](https://avatars.githubusercontent.com/u/156163982?v=4) | ![오패캠](https://avatars.githubusercontent.com/u/156163982?v=4) |
-| :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
-|            [박패캠](https://github.com/UpstageAILab)             |            [이패캠](https://github.com/UpstageAILab)             |            [최패캠](https://github.com/UpstageAILab)             |            [김패캠](https://github.com/UpstageAILab)             |            [오패캠](https://github.com/UpstageAILab)             |
-|                            팀장, 담당 역할                             |                            담당 역할                             |                            담당 역할                             |                            담당 역할                             |                            담당 역할                             |
+## 개요
 
-## 0. Overview
-### Environment
-- _Write Development environment_
+> - kimkihong / helpotcreator@gmail.com / Upstage AI Lab 3기
+> - 2024.07.30.화 10:00 ~ 2024.08.11.일 19:00
 
-### Requirements
-- _Write Requirements_
+## 파일 소개
 
-## 1. Competiton Info
+- kkh-data-test.ipynb: test 데이터 전처리
+- kkh-data-train.ipynb: train 데이터 전처리
+- kkh-eda.ipynb: EDA
+- kkh-model.ipynb: 학습, 평가, 최종테스트
+- pyproject.toml: 프로젝트 패키지 관리를 위한 poetry 설정 파일
+- jupyter_to_python.sh: 주피터 파일을 파이썬 파일로 변환하는 리눅스 스크립트
+- font/: 폰트 파일
 
-### Overview
+## 우분투 세팅
 
-- _Write competition information_
+- apt-get update
+- mkdir /kkh
+- cd /kkh
 
-### Timeline
+## 우분투에 git 세팅
 
-- ex) January 10, 2024 - Start Date
-- ex) February 10, 2024 - Final submission deadline
+- apt install -y git
+- git --version
+- git config --global user.email "helpotcreator@gmail.com"
+- git config --global user.name "helpotcreator"
+- git clone https://{개인 토큰}@github.com/UpstageAILab3/upstage-cv-classification-cv2.git
+- mv upstage-cv-classification-cv2 kkh
+- cd kkh
+- git remote -v
+- git checkout -b kimkihong origin/kimkihong
+- git branch -a
 
-## 2. Components
+## 우분투에 poetry 세팅
 
-### Directory
+- pip install --upgrade pip
+- pip install poetry
+- poetry -V
+- poetry init
+- pyproject.toml 파일 수정
+- poetry install
+- poetry add jupyter nbconvert
 
-- _Insert your directory structure_
+## jupyter_to_python.sh 파일 작성
 
-e.g.
+```bash
+#!/bin/bash
+
+# 주피터 노트북 파일명을 인자로 받음
+NOTEBOOK_FILE="$1"
+
+# 파일명이 주어지지 않으면 에러 메시지를 출력하고 종료
+if [ -z "$NOTEBOOK_FILE" ]; then
+    echo "Usage: $0 <notebook-file>"
+    exit 1
+fi
+
+# 주어진 파일이 .ipynb 확장자를 가지고 있는지 확인
+if [[ "$NOTEBOOK_FILE" != *.ipynb ]]; then
+    echo "Error: The input file must have a .ipynb extension"
+    exit 1
+fi
+
+# jupyter nbconvert 명령어를 사용하여 노트북 파일을 Python 스크립트로 변환
+python -m jupyter nbconvert --to script "$NOTEBOOK_FILE"
+
+# 변환 결과 확인
+if [ $? -eq 0 ]; then
+    echo "Conversion successful: ${NOTEBOOK_FILE%.ipynb}.py"
+else
+    echo "Conversion failed"
+    exit 1
+fi
 ```
-├── code
-│   ├── jupyter_notebooks
-│   │   └── model_train.ipynb
-│   └── train.py
-├── docs
-│   ├── pdf
-│   │   └── (Template) [패스트캠퍼스] Upstage AI Lab 1기_그룹 스터디 .pptx
-│   └── paper
-└── input
-    └── data
-        ├── eval
-        └── train
-```
 
-## 3. Data descrption
+## jupyter_to_python.sh 파일 세팅
 
-### Dataset overview
-
-- _Explain using data_
-
-### EDA
-
-- _Describe your EDA process and step-by-step conclusion_
-
-### Data Processing
-
-- _Describe data processing process (e.g. Data Labeling, Data Cleaning..)_
-
-## 4. Modeling
-
-### Model descrition
-
-- _Write model information and why your select this model_
-
-### Modeling Process
-
-- _Write model train and test process with capture_
-
-## 5. Result
-
-### Leader Board
-
-- _Insert Leader Board Capture_
-- _Write rank and score_
-
-### Presentation
-
-- _Insert your presentaion file(pdf) link_
-
-## etc
-
-### Meeting Log
-
-- _Insert your meeting log link like Notion or Google Docs_
-
-### Reference
-
-- _Insert related reference_
+- chmod +x jupyter_to_python.sh
+- poetry run ./jupyter_to_python.sh {주피터 파일명}.ipynb
+- poetry run python {만들어진 파이썬 파일}.py
