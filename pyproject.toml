@@ -9,12 +9,17 @@ readme = "README.md"
 python = "^3.10"
 jupyter = "^1.0.0"
 nbconvert = "^7.16.4"
-numpy = "^2.0.1"
+numpy = "^1.26.4"
 matplotlib = "^3.9.1"
 seaborn = "^0.13.2"
 scikit-learn = "^1.5.1"
 timm = "^1.0.8"
-
+torch = "^2.0.0"
+torchvision = "0.15.1"
+torchtext = "0.15.0"
+torchaudio = "2.0.0"
+opencv-python-headless = "^4.10.0.84"
+albumentations = "^1.4.12"
 
 [build-system]
 requires = ["poetry-core"]

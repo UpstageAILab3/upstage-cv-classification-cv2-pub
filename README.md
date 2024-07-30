@@ -48,7 +48,7 @@
 - poetry init
 - pyproject.toml 파일 수정
 - poetry install
-- poetry add jupyter nbconvert numpy matplotlib seaborn scikit-learn timm
+- poetry add jupyter nbconvert numpy matplotlib seaborn scikit-learn timm albumentations[imgaug] opencv-python-headless
 
 ## jupyter_to_python.sh 파일 작성
 
