@@ -2,8 +2,8 @@ import csv
 import os
 
 # 경로 설정
-train_kr_csv_path = 'data\\train_kr.csv'
 meta_kr_csv_path = 'data\\meta_kr.csv'
+train_kr_csv_path = 'data\\train_kr.csv'
 train_kr_folder_path = 'data\\train_kr'
 
 # meta_kr.csv 파일을 읽어 target과 class_name_ko 매핑
