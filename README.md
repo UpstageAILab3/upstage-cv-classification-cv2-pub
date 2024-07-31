@@ -7,10 +7,7 @@
 
 ## 파일 소개
 
-- kkh-data-test.ipynb: test 데이터 전처리
-- kkh-data-train.ipynb: train 데이터 전처리
-- kkh-eda.ipynb: EDA
-- kkh-model.ipynb: 학습, 평가, 최종테스트
+- 작성중
 - pyproject.toml: 프로젝트 패키지 관리를 위한 poetry 설정 파일
 - jupyter_to_python.sh: 주피터 파일을 파이썬 파일로 변환하는 리눅스 스크립트
 - font/: 폰트 파일
@@ -57,7 +54,7 @@
 - poetry init
 - pyproject.toml 파일 수정
 - poetry install
-- poetry add jupyter nbconvert numpy matplotlib seaborn scikit-learn timm torch torchvision albumentations opencv-python-headless augraphy
+- ~~poetry add jupyter nbconvert numpy matplotlib seaborn scikit-learn timm torch torchvision albumentations opencv-python-headless augraphy~~
 
 ## jupyter_to_python.sh 파일 작성
 
