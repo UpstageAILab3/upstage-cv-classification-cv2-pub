@@ -1,0 +1,15 @@
+# Ignore all jpg files
+*.jpg
+
+# Ignore all png files
+*.png
+
+# Ignore all csv files
+*.csv
+
+# Ignore all pth files
+*.pth
+
+Miniconda3-latest-Linux-x86_64.sh
+
+*.tar.gz
