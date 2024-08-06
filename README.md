@@ -61,7 +61,7 @@
 - conda init
 - source ~/.bashrc
 - conda activate cv
-- pip install jupyter nbconvert numpy matplotlib seaborn scikit-learn timm torch torchvision albumentations opencv-python-headless augraphy
+- pip install jupyter nbconvert numpy matplotlib seaborn scikit-learn timm torch torchvision albumentations opencv-python-headless augraphy tqdm
 
 ## 우분투에 poetry 세팅
 
