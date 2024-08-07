@@ -5,6 +5,9 @@ ex*
 server_backup_final
 fonts/
 augraphy_cache/
+test/
+test_backup/
+submission/
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,python,vim,visualstudiocode,jupyternotebooks
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,python,vim,visualstudiocode,jupyternotebooks
