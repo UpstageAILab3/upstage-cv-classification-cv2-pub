@@ -9,13 +9,20 @@ import albumentations as A
 from PIL import Image
 from tqdm import tqdm
 from torch.utils.data import Dataset, DataLoader
+import platform
 
-# 상수 설정
-PRE_PATH = '/kkh/'
+os_name = platform.system()
+if os_name == 'Windows':
+    PRE_PATH = ''
+elif os_name == 'Linux':
+    PRE_PATH = '/kkh/'
+elif os_name == 'Darwin': # 맥
+    PRE_PATH = '/kkh/'
+
 TEST_IMAGE_PATH = PRE_PATH + 'data/test'
 TEST_CSV_PATH = PRE_PATH + 'data/sample_submission.csv'
-MODEL_SAVE_PATH = PRE_PATH + 'test/'
-MODEL_FILE = MODEL_SAVE_PATH + 'efficientnet_b4_Ep8_L_0.7092_A_0.9020_F1_0.8999.pt'
+MODEL_SAVE_PATH = PRE_PATH + 'evaluation/'
+MODEL_FILE = MODEL_SAVE_PATH + 'efficientnet_b4_Ep3_L_0.6932_A_0.9155_F1_0.9128.pt'
 
 SEED = 42
 os.environ['PYTHONHASHSEED'] = str(SEED)
@@ -82,8 +89,8 @@ def run_final_test(model, test_loader, test_df):
     
     # 결과 저장
     test_df['target'] = preds_list
-    test_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'test_predictions_temp2.csv'), index=False)
-    print(f"Final test predictions saved to {os.path.join(MODEL_SAVE_PATH, 'test_predictions.csv_temp2')}")
+    test_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'evaluation_justone_test_predictions.csv'), index=False)
+    print(f"Final test predictions saved to {os.path.join(MODEL_SAVE_PATH, 'evaluation_justone_test_predictions.csv')}")
 
 # 메인 함수
 def run_final_test_pipeline():

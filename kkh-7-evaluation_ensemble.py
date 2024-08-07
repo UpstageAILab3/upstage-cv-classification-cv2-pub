@@ -11,9 +11,16 @@ from PIL import Image
 from tqdm import tqdm
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import f1_score
+import platform
 
-# 상수 설정
-PRE_PATH = '/kkh/'
+os_name = platform.system()
+if os_name == 'Windows':
+    PRE_PATH = ''
+elif os_name == 'Linux':
+    PRE_PATH = '/kkh/'
+elif os_name == 'Darwin': # 맥
+    PRE_PATH = '/kkh/'
+    
 VALID_IMAGE_PATH = PRE_PATH + 'data/valid_sunho'
 VALID_CSV_PATH = PRE_PATH + 'data/valid_sunho.csv'
 TEST_IMAGE_PATH = PRE_PATH + 'data/test'
@@ -35,10 +42,21 @@ BATCH_SIZE = 32
 NUM_WORKERS = os.cpu_count()
 
 MODEL_FILES = [
+    PRE_PATH + 'submission/0.9190/' + 'efficientnet_b4_Ep3_L_0.6932_A_0.9155_F1_0.9128.pt',
+    PRE_PATH + 'submission/0.9190/' + 'efficientnet_b4_Ep2_L_0.4731_A_0.9223_F1_0.9119.pt',
     PRE_PATH + 'submission/0.9190/' + 'efficientnet_b4_Ep7_L_0.5274_A_0.9054_F1_0.9024.pt',
-    PRE_PATH + 'submission/0.9190/' + 'resnet50_Ep6_L_0.8469_A_0.8885_F1_0.8899.pt',
-    PRE_PATH + 'submission/0.9190/' + 'efficientnet_b0_Ep3_L_0.9156_A_0.8851_F1_0.8952.pt'
 ]
+
+def create_directory_with_backup(path):
+    try:
+        if os.path.exists(path):
+            backup_path = path + '_backup'
+            os.rename(path, backup_path)
+            print(f"Existing folder renamed to: {backup_path}")
+        os.makedirs(path)
+        print(f"Folder created: {path}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 # Dataset class 정의
 class ImageDataset(Dataset):
@@ -126,8 +144,8 @@ def run_final_test(models, test_loader, test_df):
     
     # 결과 저장
     test_df['target'] = ensemble_preds
-    test_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'evaluation_test_predictions.csv'), index=False)
-    print(f"Final test predictions saved to {os.path.join(MODEL_SAVE_PATH, 'evaluation_test_predictions.csv')}")
+    test_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_test_predictions.csv'), index=False)
+    print(f"Final test predictions saved to {os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_test_predictions.csv')}")
 
 # 메인 함수
 def run_final_test_pipeline():
@@ -153,15 +171,17 @@ def run_final_test_pipeline():
             raise ValueError(f"Unknown model file: {model_file}")
         
         model = timm.create_model(model_name, pretrained=False, num_classes=NUM_CLASSES, in_chans=3)
-        model.load_state_dict(torch.load(model_file))
+
+        # map_location 인자를 사용하여 모델을 CPU에서 로드
+        model.load_state_dict(torch.load(model_file, map_location=device))
         model = model.to(device)
         models.append(model)
 
     # Validation 평가 수행
     val_preds, val_targets = evaluate(models, valid_loader)
     valid_df['predictions'] = val_preds
-    valid_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'evaluation_validation_predictions.csv'), index=False)
-    print(f"Validation predictions saved to {os.path.join(MODEL_SAVE_PATH, 'evaluation_validation_predictions.csv')}")
+    valid_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_validation_predictions.csv'), index=False)
+    print(f"Validation predictions saved to {os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_validation_predictions.csv')}")
 
     # F1 점수 계산 및 저장
     f1 = f1_score(val_targets, val_preds, average='macro')
@@ -174,4 +194,5 @@ def run_final_test_pipeline():
     run_final_test(models, test_loader, test_df)
 
 if __name__ == "__main__":
+    create_directory_with_backup(MODEL_SAVE_PATH)
     run_final_test_pipeline()
