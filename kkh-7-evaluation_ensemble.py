@@ -25,7 +25,7 @@ VALID_IMAGE_PATH = PRE_PATH + 'data/valid_sunho'
 VALID_CSV_PATH = PRE_PATH + 'data/valid_sunho.csv'
 TEST_IMAGE_PATH = PRE_PATH + 'data/test'
 TEST_CSV_PATH = PRE_PATH + 'data/sample_submission.csv'
-MODEL_SAVE_PATH = PRE_PATH + 'evaluation/'
+MODEL_SAVE_PATH = PRE_PATH + 'test/'
 
 SEED = 42
 os.environ['PYTHONHASHSEED'] = str(SEED)
@@ -42,9 +42,9 @@ BATCH_SIZE = 32
 NUM_WORKERS = os.cpu_count()
 
 MODEL_FILES = [
-    PRE_PATH + 'submission/0.9190/' + 'efficientnet_b4_Ep3_L_0.6932_A_0.9155_F1_0.9128.pt',
-    PRE_PATH + 'submission/0.9190/' + 'efficientnet_b4_Ep2_L_0.4731_A_0.9223_F1_0.9119.pt',
-    PRE_PATH + 'submission/0.9190/' + 'efficientnet_b4_Ep7_L_0.5274_A_0.9054_F1_0.9024.pt',
+    PRE_PATH + 'data/pt/dongjae/' + 'eff-b4_0.4954_0.9248_epoch7.pt',
+    PRE_PATH + 'data/pt/dongjae/' + 'eff-b4_0.5089_0.9283_epoch2.pt',
+    PRE_PATH + 'data/pt/dongjae/' + 'eff-b4_0.4055_0.9239_epoch0.pt',
 ]
 
 def create_directory_with_backup(path):
@@ -144,8 +144,8 @@ def run_final_test(models, test_loader, test_df):
     
     # 결과 저장
     test_df['target'] = ensemble_preds
-    test_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_test_predictions.csv'), index=False)
-    print(f"Final test predictions saved to {os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_test_predictions.csv')}")
+    test_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'ensemble_test.csv'), index=False)
+    print(f"Final test predictions saved to {os.path.join(MODEL_SAVE_PATH, 'ensemble_test.csv')}")
 
 # 메인 함수
 def run_final_test_pipeline():
@@ -180,12 +180,12 @@ def run_final_test_pipeline():
     # Validation 평가 수행
     val_preds, val_targets = evaluate(models, valid_loader)
     valid_df['predictions'] = val_preds
-    valid_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_validation_predictions.csv'), index=False)
-    print(f"Validation predictions saved to {os.path.join(MODEL_SAVE_PATH, 'evaluation_ensemble_validation_predictions.csv')}")
+    valid_df.to_csv(os.path.join(MODEL_SAVE_PATH, 'ensemble_valid.csv'), index=False)
+    print(f"Validation predictions saved to {os.path.join(MODEL_SAVE_PATH, 'ensemble_valid.csv')}")
 
     # F1 점수 계산 및 저장
     f1 = f1_score(val_targets, val_preds, average='macro')
-    f1_score_path = os.path.join(MODEL_SAVE_PATH, f'evaluation_validation_f1_{f1:.4f}.txt')
+    f1_score_path = os.path.join(MODEL_SAVE_PATH, f'ensemble_valid_f1_{f1:.4f}.txt')
     with open(f1_score_path, 'w') as f:
         f.write(f'Validation F1 Score: {f1:.4f}\n')
     print(f"Validation F1 score saved to {f1_score_path}")

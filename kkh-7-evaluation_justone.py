@@ -21,8 +21,8 @@ elif os_name == 'Darwin': # 맥
 
 TEST_IMAGE_PATH = PRE_PATH + 'data/test'
 TEST_CSV_PATH = PRE_PATH + 'data/sample_submission.csv'
-MODEL_SAVE_PATH = PRE_PATH + 'evaluation/'
-MODEL_FILE = MODEL_SAVE_PATH + 'efficientnet_b4_Ep3_L_0.6932_A_0.9155_F1_0.9128.pt'
+MODEL_SAVE_PATH = PRE_PATH + 'data/pt/'
+MODEL_FILE = 'dongjae/eff-b4_0.4954_0.9248_epoch7.pt'
 
 SEED = 42
 os.environ['PYTHONHASHSEED'] = str(SEED)
