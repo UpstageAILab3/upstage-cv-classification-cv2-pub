@@ -45,6 +45,8 @@ MODEL_FILES = [
     PRE_PATH + 'data/pt/dongjae/' + 'eff-b4_0.4954_0.9248_epoch7.pt',
     PRE_PATH + 'data/pt/dongjae/' + 'eff-b4_0.5089_0.9283_epoch2.pt',
     PRE_PATH + 'data/pt/dongjae/' + 'eff-b4_0.4055_0.9239_epoch0.pt',
+    PRE_PATH + 'data/pt/dongjae/' + '64-eff-b4_0.5632_0.9222_epoch0.pt',
+    PRE_PATH + 'data/pt/kimkihong/' + 'efficientnet_b4_Ep2_L_0.4731_A_0.9223_F1_0.9119.pt',
 ]
 
 def create_directory_with_backup(path):
@@ -163,6 +165,8 @@ def run_final_test_pipeline():
     for model_file in MODEL_FILES:
         if 'efficientnet_b4' in model_file:
             model_name = 'tf_efficientnet_b4'
+        elif 'eff' in model_file:  # 파일명에 'efficientnet'이 포함된 경우 기본적으로 b4로 처리
+            model_name = 'tf_efficientnet_b4'
         elif 'efficientnet_b0' in model_file:
             model_name = 'efficientnet_b0'
         elif 'resnet50' in model_file:
@@ -173,7 +177,14 @@ def run_final_test_pipeline():
         model = timm.create_model(model_name, pretrained=False, num_classes=NUM_CLASSES, in_chans=3)
 
         # map_location 인자를 사용하여 모델을 CPU에서 로드
-        model.load_state_dict(torch.load(model_file, map_location=device))
+        # model.load_state_dict(torch.load(model_file, map_location=device))
+        # model = model.to(device)
+        # models.append(model)
+
+        state_dict = torch.load(model_file, map_location=device)
+        model_state_dict = model.state_dict()
+        model_state_dict.update(state_dict)
+        model.load_state_dict(model_state_dict)
         model = model.to(device)
         models.append(model)
 
