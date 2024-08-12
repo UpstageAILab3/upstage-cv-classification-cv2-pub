@@ -6,3 +6,5 @@
 # train['target'][train['ID'] == 'c5182ab809478f12.jpg'] = 14
 # train['target'][train['ID'] == '38d1796b6ad99ddd.jpg'] = 10
 # train['target'][train['ID'] == '0583254a73b48ece.jpg'] = 10
+
+# 본 전처리 부분은, 데이터 증강 augmentation 마지막 부분에 추가하였음
