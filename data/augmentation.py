@@ -1,8 +1,3 @@
-'''
-Roate / Flip / Shift / Noise
-를 적용하는 클래스
-'''
-
 import albumentations as A
 import numpy as np
 import random
@@ -178,3 +173,26 @@ class Augmentaion():
         patch_img = np.copy(img1)
         patch_img[y : y + ph, x : x + pw] = img2[y:y + ph, x:x + pw]
         return patch_img
+    
+    def getCombinationAug(self, ids, images, labels, combinations):
+        '''
+        INPUT:
+            ids : List[string ...] # ID List
+            images : List[np.array(image) ...] # Image List
+            labels : List[int ...] # Label List
+            combinations : List['string' ...]
+        '''
+
+        augfunc = {
+            "rotate" : self.getRotateImg,
+            "patch" : self.getPatchImg,
+            "flip" : self.getPatchImg,
+            "noise" : self.getNoiseImg
+        }
+
+        aug_ids, aug_imgs, aug_labels = ids, images, labels
+
+        for func_name in combinations:
+            aug_ids, aug_imgs, aug_labels = augfunc[func_name](aug_ids, aug_imgs, aug_labels)
+    
+        return aug_ids, aug_imgs, aug_labels

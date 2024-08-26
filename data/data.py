@@ -17,6 +17,8 @@ class Data():
         self.TRAIN_AUG_CSV_PATH = self.PRE_PATH + 'train_aug.csv'
         self.TRAIN_AUG_IMG_PATH = self.PRE_PATH + 'train_aug'
 
+        self.TRAIN_IMG_ID, self.TRAIN_IMG, self.TRAIN_TARGET = self.getOriginImage()
+
     def getOriginImage(self):
         """
         OUTPUT:
@@ -40,8 +42,30 @@ class Data():
 
         return id_list, img_list, label_list
     
-    def createAugImage(self, ):
-        rotate_ids, rotate_imgs, rotate_labels = self.aug
+    def createAugImage(self):
+        '''
+            patch(한번 또는 두번) + rotate + flip + noise
+            patch(한번 또는 두번) + rotate 
+        '''
+
+        aug_ids = []
+        aug_imgs = []
+        aug_labels = []
+
+        comb1 = ["patch", "rotate", "flip", "noise"]
+        comb2 = ["patch", "rotate"]
+
+        comb1_aug_ids, comb1_aug_imgs, comb1_aug_labels = self.aug.getCombinationAug(self.TRAIN_IMG_ID, self.TRAIN_IMG, self.TRAIN_TARGET, comb1)
+        aug_ids.append(comb1_aug_ids)
+        aug_imgs.append(comb1_aug_imgs)
+        aug_labels.append(comb1_aug_labels)
+
+        comb2_aug_ids, comb2_aug_imgs, comb2_aug_labels = self.aug.getCombinationAug(self.TRAIN_IMG_ID, self.TRAIN_IMG, self.TRAIN_TARGET, comb2)
+        aug_ids.append(comb2_aug_ids)
+        aug_imgs.append(comb2_aug_imgs)
+        aug_labels.append(comb2_aug_labels)
+
+        return aug_ids, aug_imgs, aug_labels
 
 
-    def saveImage(self, path, id, )
+    def saveImage(self, path, id, ):
